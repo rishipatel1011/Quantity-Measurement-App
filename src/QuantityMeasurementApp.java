@@ -1,38 +1,29 @@
 public class QuantityMeasurementApp {
 
-    public static class Feet {
-        private final double value;
-        public Feet(double value) { this.value = value; }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null || getClass() != obj.getClass()) return false;
-            Feet feet = (Feet) obj;
-            return Double.compare(feet.value, this.value) == 0;
-        }
+    // Overloaded Method 1: Takes raw primitive values
+    public static void demonstrateLengthConversion(double value, LengthUnit from, LengthUnit to) {
+        double result = QuantityLength.convert(value, from, to);
+        System.out.println("convert(" + value + ", " + from + ", " + to + ") -> Output: " + result);
     }
 
-    // Inches Class (New for UC2)
-    public static class Inches {
-        private final double value;
-        public Inches(double value) { this.value = value; }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null || getClass() != obj.getClass()) return false;
-            Inches inches = (Inches) obj;
-            return Double.compare(inches.value, this.value) == 0;
-        }
+    // Overloaded Method 2: Takes an existing object
+    public static void demonstrateLengthConversion(QuantityLength quantity, LengthUnit to) {
+        QuantityLength result = quantity.convertTo(to);
+        System.out.println("Converted " + quantity + " to -> " + result);
     }
 
-    // Static methods to reduce dependency on Main
-    public static boolean compareFeet(double f1, double f2) {
-        return new Feet(f1).equals(new Feet(f2));
+    public static void demonstrateLengthEquality(QuantityLength q1, QuantityLength q2) {
+        System.out.println(q1 + " == " + q2 + " -> " + q1.equals(q2));
     }
 
-    public static boolean compareInches(double i1, double i2) {
-        return new Inches(i1).equals(new Inches(i2));
+    // Test the API functionality
+    public static void main(String[] args) {
+        System.out.println("=== UC5: Conversion API Demonstration ===");
+        demonstrateLengthConversion(1.0, LengthUnit.FEET, LengthUnit.INCH);
+        demonstrateLengthConversion(3.0, LengthUnit.YARD, LengthUnit.FEET);
+        demonstrateLengthConversion(36.0, LengthUnit.INCH, LengthUnit.YARD);
+
+        QuantityLength cm = new QuantityLength(1.0, LengthUnit.CENTIMETER);
+        demonstrateLengthConversion(cm, LengthUnit.INCH);
     }
 }

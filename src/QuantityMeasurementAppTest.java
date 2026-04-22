@@ -3,32 +3,32 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class QuantityMeasurementAppTest {
 
+    // --- FEET TESTS ---
     @Test
-    public void testEquality_SameValue() {
-        // Given 1.0 ft and 1.0 ft
-        QuantityMeasurementApp.Feet f1 = new QuantityMeasurementApp.Feet(1.0);
-        QuantityMeasurementApp.Feet f2 = new QuantityMeasurementApp.Feet(1.0);
+    public void testFeetEquality_SameValue() {
+        assertTrue(QuantityMeasurementApp.compareFeet(1.0, 1.0));
+    }
 
-        // When compared, then should be equal
-        assertEquals(f1, f2);
+    // --- INCHES TESTS ---
+    @Test
+    public void testInchesEquality_SameValue() {
+        assertTrue(QuantityMeasurementApp.compareInches(1.0, 1.0));
     }
 
     @Test
-    public void testEquality_DifferentValue() {
-        QuantityMeasurementApp.Feet f1 = new QuantityMeasurementApp.Feet(1.0);
-        QuantityMeasurementApp.Feet f2 = new QuantityMeasurementApp.Feet(2.0);
-        assertNotEquals(f1, f2);
+    public void testInchesEquality_DifferentValue() {
+        assertFalse(QuantityMeasurementApp.compareInches(1.0, 2.0));
     }
 
     @Test
-    public void testEquality_NullComparison() {
-        QuantityMeasurementApp.Feet f1 = new QuantityMeasurementApp.Feet(1.0);
-        assertNotEquals(null, f1);
+    public void testInches_NullComparison() {
+        QuantityMeasurementApp.Inches inch = new QuantityMeasurementApp.Inches(1.0);
+        assertNotEquals(null, inch);
     }
 
     @Test
-    public void testEquality_SameReference() {
-        QuantityMeasurementApp.Feet f1 = new QuantityMeasurementApp.Feet(1.0);
-        assertEquals(f1, f1);
+    public void testInches_SameReference() {
+        QuantityMeasurementApp.Inches inch = new QuantityMeasurementApp.Inches(1.0);
+        assertEquals(inch, inch);
     }
 }

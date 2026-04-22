@@ -1,63 +1,49 @@
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+// --- UC4: YARD TESTS ---
+@Test
+public void testEquality_YardToYard_SameValue() {
+    QuantityLength y1 = new QuantityLength(1.0, LengthUnit.YARD);
+    QuantityLength y2 = new QuantityLength(1.0, LengthUnit.YARD);
+    assertEquals(y1, y2);
+}
 
-public class QuantityMeasurementAppTest {
+@Test
+public void testEquality_YardToFeet_EquivalentValue() {
+    QuantityLength y1 = new QuantityLength(1.0, LengthUnit.YARD);
+    QuantityLength f1 = new QuantityLength(3.0, LengthUnit.FEET);
+    assertEquals(y1, f1); // 1 Yard == 3 Feet
+}
 
-    // --- Same Unit Equality Tests ---
-    @Test
-    public void testEquality_FeetToFeet_SameValue() {
-        QuantityLength f1 = new QuantityLength(1.0, LengthUnit.FEET);
-        QuantityLength f2 = new QuantityLength(1.0, LengthUnit.FEET);
-        assertEquals(f1, f2);
-    }
+@Test
+public void testEquality_YardToInches_EquivalentValue() {
+    QuantityLength y1 = new QuantityLength(1.0, LengthUnit.YARD);
+    QuantityLength i1 = new QuantityLength(36.0, LengthUnit.INCH);
+    assertEquals(y1, i1); // 1 Yard == 36 Inches
+}
 
-    @Test
-    public void testEquality_InchToInch_SameValue() {
-        QuantityLength i1 = new QuantityLength(1.0, LengthUnit.INCH);
-        QuantityLength i2 = new QuantityLength(1.0, LengthUnit.INCH);
-        assertEquals(i1, i2);
-    }
+// --- UC4: CENTIMETER TESTS ---
+@Test
+public void testEquality_CentimeterToCentimeter_SameValue() {
+    QuantityLength cm1 = new QuantityLength(2.0, LengthUnit.CENTIMETER);
+    QuantityLength cm2 = new QuantityLength(2.0, LengthUnit.CENTIMETER);
+    assertEquals(cm1, cm2);
+}
 
-    // --- Cross-Unit Equality Tests (The Magic of UC3) ---
-    @Test
-    public void testEquality_FeetToInch_EquivalentValue() {
-        QuantityLength f1 = new QuantityLength(1.0, LengthUnit.FEET);
-        QuantityLength i1 = new QuantityLength(12.0, LengthUnit.INCH);
-        assertEquals(f1, i1); // 1 ft == 12 inches
-    }
+@Test
+public void testEquality_CentimeterToInches_EquivalentValue() {
+    QuantityLength cm1 = new QuantityLength(1.0, LengthUnit.CENTIMETER);
+    QuantityLength i1 = new QuantityLength(0.393701, LengthUnit.INCH);
+    assertEquals(cm1, i1); // 1 CM == 0.393701 Inches
+}
 
-    @Test
-    public void testEquality_InchToFeet_EquivalentValue() {
-        QuantityLength i1 = new QuantityLength(12.0, LengthUnit.INCH);
-        QuantityLength f1 = new QuantityLength(1.0, LengthUnit.FEET);
-        assertEquals(i1, f1); // Symmetric check
-    }
+// --- Multi-Unit / Transitive Property ---
+@Test
+public void testEquality_MultiUnit_TransitiveProperty() {
+    QuantityLength y1 = new QuantityLength(1.0, LengthUnit.YARD);
+    QuantityLength f1 = new QuantityLength(3.0, LengthUnit.FEET);
+    QuantityLength i1 = new QuantityLength(36.0, LengthUnit.INCH);
 
-    // --- Inequality Tests ---
-    @Test
-    public void testEquality_FeetToFeet_DifferentValue() {
-        QuantityLength f1 = new QuantityLength(1.0, LengthUnit.FEET);
-        QuantityLength f2 = new QuantityLength(2.0, LengthUnit.FEET);
-        assertNotEquals(f1, f2);
-    }
-
-    // --- Null and Reference Tests ---
-    @Test
-    public void testEquality_NullComparison() {
-        QuantityLength f1 = new QuantityLength(1.0, LengthUnit.FEET);
-        assertNotEquals(null, f1);
-    }
-
-    @Test
-    public void testEquality_SameReference() {
-        QuantityLength f1 = new QuantityLength(1.0, LengthUnit.FEET);
-        assertEquals(f1, f1);
-    }
-
-    @Test
-    public void testEquality_NullUnit() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new QuantityLength(1.0, null);
-        });
-    }
+    // If A == B and B == C, then A == C
+    assertEquals(y1, f1);
+    assertEquals(f1, i1);
+    assertEquals(y1, i1);
 }

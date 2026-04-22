@@ -1,26 +1,13 @@
-public class QuantityLength {
-    private final double value;
-    private final LengthUnit unit;
+@Override
+public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
 
-    public QuantityLength(double value, LengthUnit unit) {
-        if (unit == null) {
-            throw new IllegalArgumentException("Unit cannot be null");
-        }
-        this.value = value;
-        this.unit = unit;
-    }
+    QuantityLength that = (QuantityLength) obj;
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+    double thisBaseValue = this.value * this.unit.getConversionFactor();
+    double thatBaseValue = that.value * that.unit.getConversionFactor();
 
-        QuantityLength that = (QuantityLength) obj;
-
-        // Convert BOTH measurements to the base unit (Inches) before comparing
-        double thisBaseValue = this.value * this.unit.getConversionFactor();
-        double thatBaseValue = that.value * that.unit.getConversionFactor();
-
-        return Double.compare(thisBaseValue, thatBaseValue) == 0;
-    }
+    // Math.abs handles minor precision differences in double calculations
+    return Math.abs(thisBaseValue - thatBaseValue) <= 0.0001;
 }

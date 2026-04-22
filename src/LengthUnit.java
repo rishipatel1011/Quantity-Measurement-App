@@ -1,8 +1,9 @@
 public enum LengthUnit {
-    INCH(1.0),
-    FEET(12.0),
-    YARD(36.0),             // New Unit Added! (3 Feet * 12 Inches)
-    CENTIMETER(0.393701);  // New Unit Added!
+    // Base unit is FEET.
+    FEET(1.0),
+    INCH(1.0 / 12.0),           // 1 Inch = 1/12 Feet
+    YARD(3.0),                  // 1 Yard = 3 Feet
+    CENTIMETER(1.0 / 30.48);    // 1 CM = 1/30.48 Feet
 
     private final double conversionFactor;
 
@@ -12,5 +13,17 @@ public enum LengthUnit {
 
     public double getConversionFactor() {
         return conversionFactor;
+    }
+
+    // --- UC8: New Responsibilities ---
+
+    // Converts a value from THIS unit to the BASE unit (Feet)
+    public double convertToBaseUnit(double value) {
+        return value * this.conversionFactor;
+    }
+
+    // Converts a value from the BASE unit (Feet) to THIS unit
+    public double convertFromBaseUnit(double baseValue) {
+        return baseValue / this.conversionFactor;
     }
 }

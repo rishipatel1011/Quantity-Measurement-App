@@ -1,32 +1,29 @@
-// --- PRIVATE HELPER METHOD (DRY Principle) ---
-private QuantityLength calculateAddition(QuantityLength other, LengthUnit targetUnit) {
-    if (other == null) {
-        throw new IllegalArgumentException("Cannot add a null quantity");
+public enum LengthUnit {
+    // Base unit is FEET.
+    FEET(1.0),
+    INCH(1.0 / 12.0),           // 1 Inch = 1/12 Feet
+    YARD(3.0),                  // 1 Yard = 3 Feet
+    CENTIMETER(1.0 / 30.48);    // 1 CM = 1/30.48 Feet
+
+    private final double conversionFactor;
+
+    LengthUnit(double conversionFactor) {
+        this.conversionFactor = conversionFactor;
     }
-    if (targetUnit == null) {
-        throw new IllegalArgumentException("Target unit cannot be null");
+
+    public double getConversionFactor() {
+        return conversionFactor;
     }
 
-    // 1. Dono values ko base unit (Inches) mein convert karo
-    double thisBaseValue = this.value * this.unit.getConversionFactor();
-    double otherBaseValue = other.value * other.unit.getConversionFactor();
+    // --- UC8: New Responsibilities ---
 
-    // 2. Sum calculate karo base unit mein
-    double sumInBaseUnit = thisBaseValue + otherBaseValue;
+    // Converts a value from THIS unit to the BASE unit (Feet)
+    public double convertToBaseUnit(double value) {
+        return value * this.conversionFactor;
+    }
 
-    // 3. Result ko explicitly maange gaye target unit mein convert karke naya object return karo
-    double finalValue = sumInBaseUnit / targetUnit.getConversionFactor();
-    return new QuantityLength(finalValue, targetUnit);
-}
-
-// --- UC6: Implicit Target Unit (Overloaded Method 1) ---
-public QuantityLength add(QuantityLength other) {
-    // Default behavior: Target unit is the unit of the first operand
-    return calculateAddition(other, this.unit);
-}
-
-// --- UC7: Explicit Target Unit (Overloaded Method 2) ---
-public QuantityLength add(QuantityLength other, LengthUnit targetUnit) {
-    // Uses the explicitly specified target unit
-    return calculateAddition(other, targetUnit);
+    // Converts a value from the BASE unit (Feet) to THIS unit
+    public double convertFromBaseUnit(double baseValue) {
+        return baseValue / this.conversionFactor;
+    }
 }

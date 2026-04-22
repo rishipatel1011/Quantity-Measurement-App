@@ -1,29 +1,19 @@
-public class QuantityMeasurementApp {
+// Add this new method to demonstrate UC6
+public static void demonstrateLengthAddition(QuantityLength q1, QuantityLength q2) {
+    QuantityLength result = q1.add(q2);
+    System.out.println("add(" + q1 + ", " + q2 + ") -> Output: " + result);
+}
 
-    // Overloaded Method 1: Takes raw primitive values
-    public static void demonstrateLengthConversion(double value, LengthUnit from, LengthUnit to) {
-        double result = QuantityLength.convert(value, from, to);
-        System.out.println("convert(" + value + ", " + from + ", " + to + ") -> Output: " + result);
-    }
+public static void main(String[] args) {
+    System.out.println("=== UC6: Addition API Demonstration ===");
+    QuantityLength f1 = new QuantityLength(1.0, LengthUnit.FEET);
+    QuantityLength i12 = new QuantityLength(12.0, LengthUnit.INCH);
+    QuantityLength y1 = new QuantityLength(1.0, LengthUnit.YARD);
+    QuantityLength cm2_54 = new QuantityLength(2.54, LengthUnit.CENTIMETER);
 
-    // Overloaded Method 2: Takes an existing object
-    public static void demonstrateLengthConversion(QuantityLength quantity, LengthUnit to) {
-        QuantityLength result = quantity.convertTo(to);
-        System.out.println("Converted " + quantity + " to -> " + result);
-    }
-
-    public static void demonstrateLengthEquality(QuantityLength q1, QuantityLength q2) {
-        System.out.println(q1 + " == " + q2 + " -> " + q1.equals(q2));
-    }
-
-    // Test the API functionality
-    public static void main(String[] args) {
-        System.out.println("=== UC5: Conversion API Demonstration ===");
-        demonstrateLengthConversion(1.0, LengthUnit.FEET, LengthUnit.INCH);
-        demonstrateLengthConversion(3.0, LengthUnit.YARD, LengthUnit.FEET);
-        demonstrateLengthConversion(36.0, LengthUnit.INCH, LengthUnit.YARD);
-
-        QuantityLength cm = new QuantityLength(1.0, LengthUnit.CENTIMETER);
-        demonstrateLengthConversion(cm, LengthUnit.INCH);
-    }
+    demonstrateLengthAddition(f1, f1);          // 1ft + 1ft = 2ft
+    demonstrateLengthAddition(f1, i12);         // 1ft + 12in = 2ft
+    demonstrateLengthAddition(i12, f1);         // 12in + 1ft = 24in
+    demonstrateLengthAddition(y1, f1);          // 1yd + 3ft = 2yd
+    demonstrateLengthAddition(cm2_54, i12);     // 2.54cm + 12in = 33.02cm
 }
